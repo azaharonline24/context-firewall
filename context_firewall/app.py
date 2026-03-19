@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from .storage import ContextStore
@@ -10,6 +11,9 @@ from .stages.rank import rank_chunks
 from .stages.compress import compress_chunks
 
 app = FastAPI(title="ContextFirewall", version="0.1.0")
+
+# Serve static files (including the demo UI)
+app.mount("/static", StaticFiles(directory="context_firewall/static"), name="static")
 
 # Default stage order and config
 DEFAULT_STAGES = [
@@ -88,6 +92,6 @@ async def process_context(request: ProcessRequest):
 # Optional: simple root endpoint
 @app.get("/")
 async def root():
-    return {"message": "ContextFirewall API is running. See /docs for Swagger UI."}
+    return {"message": "ContextFirewall API is running. See /docs for Swagger UI. Try /static/index.html for the demo UI."}
 
 # To run: uvicorn context_firewall.app:app --host 0.0.0.0 --port 8000

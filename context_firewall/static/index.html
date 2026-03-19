@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ContextFirewall Demo</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        body { font-family: sans-serif; margin: 2rem; }
+        .section { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; }
+        pre { background: #f4f4f4; padding: 1rem; overflow: auto; }
+        .token-count { font-weight: bold; color: #0066cc; }
+        .removed { color: #999; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>ContextFirewall Demo</h1>
+    <div class="section">
+        <h2>Input Context</h2>
+        <textarea id="input" rows="10" cols="80" placeholder='[{"text": "Hello world", "timestamp": 1}, {"text": "Hello world", "timestamp": 2}]'>
+[{"text": "User asked about the weather.", "timestamp": 1000.0, "source_id": "user_input"},
+ {"text": "The weather in New York is sunny.", "timestamp": 1005.0, "source_id": "weather_api"},
+ {"text": "User asked about the weather.", "timestamp": 1010.0, "source_id": "user_input"},
+ {"text": "The weather in New York is rainy.", "timestamp": 1015.0, "source_id": "weather_api"}]
+</textarea>
+    </div>
+    <div class="section">
+        <h2>Goal (optional)</h2>
+        <input type="text" id="goal" placeholder="e.g., Answer user's latest question" size="60">
+    </div>
+    <div class="section">
+        <button hx-post="/process"
+                hx- vals='js:{"chunks": JSON.parse(document.getElementById("input").value), "goal": document.getElementById("goal").value || null}'
+                hx-target="#output"
+                hx-swap="innerHTML">
+            Process Context
+        </button>
+    </div>
+    <div class="section" id="output">
+        <h2>Output</h2>
+    </div>
+</body>
+</html>
