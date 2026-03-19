@@ -1,0 +1,7 @@
+fastapi>=0.100.0
+uvicorn[standard]>=0.27.0
+# Optional: for vector-based ranking or abstractive summarization
+# sentence-transformers>=2.2.0
+# torch>=2.0.0
+# For local LLM compression (llama-cpp-python or similar)
+# llama-cpp-python>=0.2.0
