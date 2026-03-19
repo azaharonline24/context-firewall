@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  context-firewall:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./context.sqlite:/app/context.sqlite
+    environment:
+      - PYTHONUNBUFFERED=1
